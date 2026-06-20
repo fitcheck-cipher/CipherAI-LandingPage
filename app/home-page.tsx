@@ -69,7 +69,7 @@ const FEATURES = [
     num: '02',
     Icon: Ruler,
     title: 'Know your size. Always.',
-    body: 'One body scan via your phone camera. MediaPipe maps your proportions. Every outfit recommendation is filtered to what will actually fit — goodbye, 3 sizes ordered, 2 returned.',
+    body: 'Enter your measurements once. MediaPipe maps your proportions. Every outfit recommendation is filtered to what will actually fit — goodbye, 3 sizes ordered, 2 returned.',
     img: 'https://images.unsplash.com/photo-1516762689617-e1cffcef479d?w=1200&q=85',
   },
   {
