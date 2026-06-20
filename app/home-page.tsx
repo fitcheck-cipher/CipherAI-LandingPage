@@ -417,7 +417,7 @@ export default function HomePage() {
             <span style={{ color: accentBorder }}>·</span>
             <a href="#team" className="text-[11px] tracking-[0.18em] uppercase hover:opacity-80 transition-opacity" style={{ color: accentMuted }}>Team</a>
           </div>
-          <p className="text-[10px] tracking-[0.2em] uppercase" style={{ color: accentMuted, opacity: 0.5 }}>© 2025 CipherAI · All rights reserved</p>
+          <p className="text-[10px] tracking-[0.2em] uppercase" style={{ color: accentMuted, opacity: 0.5 }}>© 2026 CipherAI · All rights reserved</p>
         </div>
       </footer>
 
