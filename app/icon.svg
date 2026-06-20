@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <!-- Thread: drawn first so needle sits on top -->
+  <path d="M22 8C24.5 4.5 29 5.5 28 10C27 14.5 22.5 15.5 21.5 20"
+        stroke="#C4A074" stroke-width="1.8" stroke-linecap="round"/>
+  <!-- Needle body -->
+  <path d="M7 25L23 9" stroke="#A97C50" stroke-width="3" stroke-linecap="round"/>
+  <!-- Eye of needle — white fill creates the hole illusion -->
+  <circle cx="22.2" cy="9.8" r="2.4" stroke="#A97C50" stroke-width="1.6" fill="white"/>
+</svg>

@@ -6,7 +6,6 @@ import { ArrowRight, TShirt, Robot, Ruler } from '@phosphor-icons/react'
 import Link from 'next/link'
 import { useTheme } from './theme-context'
 import SplitText from '@/components/SplitText'
-import MagneticElement from '@/components/MagneticElement'
 import { WaitlistForm } from '@/components/WaitlistForm'
 
 function TiltCard({ children, className = '', style }: { children: React.ReactNode; className?: string; style?: React.CSSProperties }) {
@@ -235,14 +234,10 @@ export default function HomePage() {
             Cipher learns your shape, your wardrobe, your budget — and decodes your style. No fashion-speak. No size-chart math. No guessing.
           </motion.p>
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.68, duration: 0.5 }}>
-            <MagneticElement>
-              <Link href="#waitlist" className="pill" style={{ background: 'var(--camel)', color: '#fff' }}>
-                Reserve your spot
-                <motion.span animate={{ x: [0, 5, 0] }} transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }} className="inline-flex">
-                  <ArrowRight size={16} />
-                </motion.span>
-              </Link>
-            </MagneticElement>
+            <Link href="#waitlist" className="pill" style={{ background: 'var(--camel)', color: '#fff' }}>
+              Reserve your spot
+              <ArrowRight size={16} />
+            </Link>
           </motion.div>
         </motion.div>
 
@@ -296,9 +291,7 @@ export default function HomePage() {
                 We didn&apos;t set out to solve a sustainability problem. We set out to solve fit. The sustainability is a side effect.
               </motion.p>
               <motion.div initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.42, duration: 0.5, ease }} className="mt-10">
-                <MagneticElement>
-                  <Link href="#waitlist" className="pill" style={{ background: 'var(--camel)', color: '#fff' }}>Join the waitlist <ArrowRight size={15} /></Link>
-                </MagneticElement>
+                <Link href="#waitlist" className="pill" style={{ background: 'var(--camel)', color: '#fff' }}>Join the waitlist <ArrowRight size={15} /></Link>
               </motion.div>
             </div>
             <ManifestoTimeline accentText={accentText} accentMuted={accentMuted} accentBorder={accentBorder} />
@@ -325,9 +318,7 @@ export default function HomePage() {
             <p className="italic-serif text-[var(--camel)] text-sm mb-1">Your style, decoded.</p>
             <p className="editorial-headline text-3xl md:text-4xl" style={{ color: accentText }}>Every look, powered by AI.</p>
           </div>
-          <MagneticElement>
-            <Link href="#waitlist" className="pill" style={{ background: 'var(--camel)', color: '#fff' }}>Get early access <ArrowRight size={15} /></Link>
-          </MagneticElement>
+          <Link href="#waitlist" className="pill" style={{ background: 'var(--camel)', color: '#fff' }}>Get early access <ArrowRight size={15} /></Link>
         </div>
       </section>
 
@@ -397,9 +388,7 @@ export default function HomePage() {
           <SplitText text="missing. Just hidden." className="editorial-headline leading-[1.06] italic-serif" style={{ fontSize: 'clamp(2.6rem,5.5vw,4.2rem)', color: 'var(--camel)' }} delay={0.4} stagger={0.055} />
           <motion.p initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.36, duration: 0.5 }} className="mt-5 mb-10 text-[1rem] leading-relaxed" style={{ color: accentMuted }}>We help you crack it.</motion.p>
           <motion.div initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.5, duration: 0.5 }} className="flex flex-wrap gap-3 justify-center">
-            <MagneticElement>
-              <Link href="#waitlist" className="pill" style={{ background: 'var(--camel)', color: '#fff' }}>Join the waitlist <ArrowRight size={15} /></Link>
-            </MagneticElement>
+            <Link href="#waitlist" className="pill" style={{ background: 'var(--camel)', color: '#fff' }}>Join the waitlist <ArrowRight size={15} /></Link>
           </motion.div>
         </div>
       </section>

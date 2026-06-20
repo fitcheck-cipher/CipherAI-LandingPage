@@ -2,7 +2,6 @@
 import Link from 'next/link'
 import { Sun, Moon } from '@phosphor-icons/react'
 import { useTheme } from '@/app/theme-context'
-import MagneticElement from '@/components/MagneticElement'
 
 export default function Navbar() {
   const { isDark, toggle } = useTheme()
@@ -41,11 +40,9 @@ export default function Navbar() {
           >
             {isDark ? <Sun size={16} /> : <Moon size={16} />}
           </button>
-          <MagneticElement>
-            <Link href="#waitlist" className="pill text-sm" style={{ background: 'var(--camel)', color: '#fff' }}>
-              Join Waitlist
-            </Link>
-          </MagneticElement>
+          <Link href="#waitlist" className="pill text-sm" style={{ background: 'var(--camel)', color: '#fff' }}>
+            Join Waitlist
+          </Link>
         </div>
       </div>
     </header>
