@@ -508,20 +508,21 @@ export default function LandingPage() {
           </div>
 
           <div className="grid sm:grid-cols-2 md:grid-cols-4" style={{ gap: '1px', background: 'var(--border)' }}>
-            {TEAM.map(({ name, role, img, bio }, i) => (
+            {TEAM.map(({ name, role, img }, i) => (
               <TiltCard key={name} className="group cursor-default overflow-hidden" style={{ background: 'var(--surface)' }}>
                 <motion.div
                   initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }} transition={{ delay: i * 0.1, duration: 0.6, ease }}
                   style={{ transformStyle: 'preserve-3d', background: 'var(--surface)' }}
                 >
-                  <div className="overflow-hidden relative">
-                    <img src={img} alt={name} className="w-full object-cover object-top transition-transform duration-700 group-hover:scale-105" style={{ aspectRatio: '3/4' }} />
+                  <div className="flex justify-center pt-8 pb-4">
+                    <div className="overflow-hidden rounded-full" style={{ width: 140, height: 140, flexShrink: 0 }}>
+                      <img src={img} alt={name} className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105" />
+                    </div>
                   </div>
                   <motion.div style={{ translateZ: 16, borderTop: '1px solid var(--border)' }} className="p-5">
                     <p className="poppins-semibold text-[var(--ink)] text-[0.95rem]">{name}</p>
-                    <p className="text-[var(--camel)] text-[10px] poppins-medium uppercase tracking-wider mb-2">{role}</p>
-                    <p className="text-xs leading-relaxed text-[var(--ink-soft)]">{bio}</p>
+                    <p className="text-[var(--camel)] text-[10px] poppins-medium uppercase tracking-wider">{role}</p>
                   </motion.div>
                 </motion.div>
               </TiltCard>
