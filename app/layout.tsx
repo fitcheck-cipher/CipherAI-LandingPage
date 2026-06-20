@@ -3,6 +3,7 @@ import { ThemeProvider } from './theme-context'
 import Navbar from '@/components/Navbar'
 import SmoothScroll from '@/components/SmoothScroll'
 import CustomCursor from '@/components/CustomCursor'
+import PageLoader from '@/components/PageLoader'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -15,6 +16,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" suppressHydrationWarning>
       <body suppressHydrationWarning>
         <ThemeProvider>
+          <PageLoader />
           <SmoothScroll>
             <CustomCursor />
             <Navbar />

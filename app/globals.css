@@ -16,6 +16,16 @@
   --accent-rose: #C4998A;
   --btn-bg: #1C1C1C;
   --btn-fg: #FFFFFF;
+  --radius: 0.5rem;
+  /* shadcn — RGB channels so Tailwind opacity modifiers work */
+  --sc-popover: 255 255 255;
+  --sc-popover-fg: 28 28 28;
+  --sc-muted-fg: 107 106 104;
+  --sc-accent: 240 239 235;
+  --sc-accent-fg: 28 28 28;
+  --sc-foreground: 28 28 28;
+  --sc-ring: 169 124 80;
+  --sc-input: 229 228 224;
 }
 
 .dark {
@@ -30,6 +40,15 @@
   --accent-rose: #D4A89A;
   --btn-bg: #C4A074;
   --btn-fg: #141210;
+  /* shadcn — RGB channels so Tailwind opacity modifiers work */
+  --sc-popover: 27 26 24;
+  --sc-popover-fg: 245 242 236;
+  --sc-muted-fg: 168 163 155;
+  --sc-accent: 37 34 31;
+  --sc-accent-fg: 245 242 236;
+  --sc-foreground: 245 242 236;
+  --sc-ring: 196 160 116;
+  --sc-input: 46 42 38;
 }
 
 .dark .gradient-warm { background: linear-gradient(180deg, #1A1714 0%, #141210 60%); }
@@ -47,6 +66,7 @@ html, body {
   transition: background-color .3s ease, color .3s ease;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  scroll-behavior: smooth;
 }
 
 html::-webkit-scrollbar,
