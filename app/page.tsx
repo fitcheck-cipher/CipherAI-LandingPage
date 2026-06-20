@@ -5,6 +5,8 @@ import { motion, useTransform, useSpring, useMotionValue, useScroll } from 'fram
 import { ArrowRight, TShirt, Robot, Ruler, CheckCircle } from '@phosphor-icons/react'
 import Link from 'next/link'
 import { useTheme } from './theme-context'
+import SplitText from '@/components/SplitText'
+import MagneticElement from '@/components/MagneticElement'
 
 function TiltCard({ children, className = '', style }: { children: React.ReactNode; className?: string; style?: React.CSSProperties }) {
   const ref = useRef<HTMLDivElement>(null)
@@ -137,14 +139,14 @@ function ParallaxFeature({ num, Icon, title, body, img, index, isDark }: {
           >
             <Icon size={18} className="text-[var(--camel)]" />
           </motion.div>
-          <motion.h2
-            initial={{ opacity: 0, y: 24, rotateX: 12 }} whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
-            viewport={{ once: true, margin: '-60px' }} transition={{ duration: 0.85, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-            className="editorial-headline text-[var(--ink)] leading-[1.05] mb-5 whitespace-pre-line"
-            style={{ fontSize: 'clamp(2.6rem,5vw,4rem)', transformOrigin: 'bottom left' }}
+          <h2
+            className="editorial-headline text-[var(--ink)] leading-[1.05] mb-5"
+            style={{ fontSize: 'clamp(2.6rem,5vw,4rem)' }}
           >
-            {title}
-          </motion.h2>
+            {title.split('\n').map((line, li) => (
+              <SplitText key={li} text={line} delay={0.1 + li * 0.18} stagger={0.05} />
+            ))}
+          </h2>
           <motion.p
             initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-60px' }} transition={{ duration: 0.7, delay: 0.18, ease: [0.22, 1, 0.36, 1] }}
@@ -155,11 +157,12 @@ function ParallaxFeature({ num, Icon, title, body, img, index, isDark }: {
           <motion.div
             initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-60px' }} transition={{ duration: 0.6, delay: 0.26, ease: [0.22, 1, 0.36, 1] }}
-            whileHover={{ y: -2 }} whileTap={{ scale: 0.97 }}
           >
-            <Link href="#waitlist" className="pill inline-flex" style={{ background: 'var(--camel)', color: '#fff' }}>
-              Try it free <ArrowRight size={15} />
-            </Link>
+            <MagneticElement>
+              <Link href="#waitlist" className="pill inline-flex" style={{ background: 'var(--camel)', color: '#fff' }}>
+                Try it free <ArrowRight size={15} />
+              </Link>
+            </MagneticElement>
           </motion.div>
         </motion.div>
       </div>
@@ -207,19 +210,19 @@ export default function LandingPage() {
       {/* ── HERO ── */}
       <section className="relative min-h-screen overflow-hidden flex flex-col lg:flex-row bg-[var(--bg)]">
         <motion.div style={{ y: heroTextY }} className="flex-1 flex flex-col justify-center px-6 sm:px-10 lg:px-16 xl:px-24 pt-24 pb-28 lg:pt-10 lg:pb-10 relative z-10">
-          <div style={{ perspective: 800 }}>
-            {['Dress for your', 'actual life.'].map((line, i) => (
-              <motion.div
-                key={line}
-                initial={{ opacity: 0, rotateX: 55, y: 30 }}
-                animate={{ opacity: 1, rotateX: 0, y: 0 }}
-                transition={{ delay: 0.1 + i * 0.18, duration: 0.72, ease }}
-                style={{ transformOrigin: 'bottom center', display: 'block' }}
-                className={`editorial-headline text-[clamp(3.8rem,8vw,6.5rem)] leading-[1] tracking-[-0.03em]${i === 0 ? ' text-[var(--ink)]' : ' italic-serif text-[var(--camel)]'}`}
-              >
-                {line}
-              </motion.div>
-            ))}
+          <div>
+            <SplitText
+              text="Dress for your"
+              className="editorial-headline text-[clamp(3.8rem,8vw,6.5rem)] leading-[1] tracking-[-0.03em] text-[var(--ink)]"
+              delay={0.1}
+              stagger={0.06}
+            />
+            <SplitText
+              text="actual life."
+              className="editorial-headline text-[clamp(3.8rem,8vw,6.5rem)] leading-[1] tracking-[-0.03em] italic-serif text-[var(--camel)]"
+              delay={0.32}
+              stagger={0.07}
+            />
           </div>
 
           <motion.p
@@ -236,7 +239,7 @@ export default function LandingPage() {
             transition={{ delay: 0.68, duration: 0.5 }}
             className="flex flex-wrap gap-3"
           >
-            <motion.div whileHover={{ y: -2 }} whileTap={{ scale: 0.97 }}>
+            <MagneticElement>
               <Link href="#waitlist" className="pill" style={{ background: 'var(--camel)', color: '#fff' }}>
                 Get started
                 <motion.span
@@ -247,8 +250,10 @@ export default function LandingPage() {
                   <ArrowRight size={16} />
                 </motion.span>
               </Link>
-            </motion.div>
-            <a href="#features" className="pill pill-ghost">See how it works</a>
+            </MagneticElement>
+            <MagneticElement>
+              <a href="#features" className="pill pill-ghost">See how it works</a>
+            </MagneticElement>
           </motion.div>
         </motion.div>
 
@@ -380,11 +385,11 @@ export default function LandingPage() {
             <p className="italic-serif text-[var(--camel)] text-sm mb-1">Your style, decoded.</p>
             <p className="editorial-headline text-3xl md:text-4xl" style={{ color: accentText }}>Every look, powered by AI.</p>
           </div>
-          <motion.div whileHover={{ y: -2 }} whileTap={{ scale: 0.97 }}>
+          <MagneticElement>
             <Link href="#waitlist" className="pill" style={{ background: 'var(--camel)', color: '#fff' }}>
               Start for free <ArrowRight size={15} />
             </Link>
-          </motion.div>
+          </MagneticElement>
         </div>
       </section>
 
@@ -414,18 +419,21 @@ export default function LandingPage() {
             Early access
           </motion.span>
 
-          <div style={{ perspective: 700 }}>
-            {['Be first to unlock', 'your style.'].map((line, i) => (
-              <motion.div
-                key={line}
-                initial={{ opacity: 0, rotateX: 50, y: 20 }} whileInView={{ opacity: 1, rotateX: 0, y: 0 }}
-                viewport={{ once: true }} transition={{ delay: i * 0.15, duration: 0.65, ease }}
-                style={{ transformOrigin: 'bottom center', display: 'block', fontSize: 'clamp(2.6rem,5.5vw,4rem)', color: i === 1 ? 'var(--camel)' : accentText }}
-                className={`editorial-headline leading-[1.06]${i === 1 ? ' italic-serif' : ''}`}
-              >
-                {line}
-              </motion.div>
-            ))}
+          <div>
+            <SplitText
+              text="Be first to unlock"
+              className="editorial-headline leading-[1.06]"
+              style={{ fontSize: 'clamp(2.6rem,5.5vw,4rem)', color: accentText }}
+              delay={0.1}
+              stagger={0.055}
+            />
+            <SplitText
+              text="your style."
+              className="editorial-headline leading-[1.06] italic-serif"
+              style={{ fontSize: 'clamp(2.6rem,5.5vw,4rem)', color: 'var(--camel)' }}
+              delay={0.42}
+              stagger={0.07}
+            />
           </div>
 
           <motion.p
@@ -461,16 +469,16 @@ export default function LandingPage() {
                 className="flex-1 px-5 py-3 rounded-full text-sm poppins-regular outline-none"
                 style={{ background: isDark ? 'rgba(255,255,255,0.07)' : 'var(--surface)', border: `1px solid ${accentBorder}`, color: accentText }}
               />
-              <motion.button
-                type="submit"
-                disabled={status === 'sending'}
-                whileHover={{ y: -2, scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-                className="pill flex-shrink-0"
-                style={{ background: 'var(--camel)', color: '#fff', opacity: status === 'sending' ? 0.7 : 1 }}
-              >
-                {status === 'sending' ? 'Sending…' : 'Join waitlist'}
-              </motion.button>
+              <MagneticElement>
+                <button
+                  type="submit"
+                  disabled={status === 'sending'}
+                  className="pill flex-shrink-0"
+                  style={{ background: 'var(--camel)', color: '#fff', opacity: status === 'sending' ? 0.7 : 1 }}
+                >
+                  {status === 'sending' ? 'Sending…' : 'Join waitlist'}
+                </button>
+              </MagneticElement>
             </motion.form>
           )}
           {status === 'error' && (
@@ -482,18 +490,21 @@ export default function LandingPage() {
       {/* ── TEAM ── */}
       <section id="team" className="py-24 lg:py-32 px-6 sm:px-10 md:px-14 bg-[var(--bg)]">
         <div className="max-w-7xl mx-auto">
-          <div style={{ perspective: 800 }} className="mb-16">
-            {['Built by people who', 'love fashion & code.'].map((line, i) => (
-              <motion.div
-                key={line}
-                initial={{ opacity: 0, rotateX: 50, y: 20 }} whileInView={{ opacity: 1, rotateX: 0, y: 0 }}
-                viewport={{ once: true }} transition={{ delay: i * 0.14, duration: 0.65, ease }}
-                style={{ transformOrigin: 'bottom center', display: 'block', fontSize: 'clamp(2.4rem,4.5vw,3.5rem)' }}
-                className={`editorial-headline leading-[1.05]${i === 1 ? ' italic-serif text-[var(--camel)]' : ' text-[var(--ink)]'}`}
-              >
-                {line}
-              </motion.div>
-            ))}
+          <div className="mb-16">
+            <SplitText
+              text="Built by people who"
+              className="editorial-headline leading-[1.05] text-[var(--ink)]"
+              style={{ fontSize: 'clamp(2.4rem,4.5vw,3.5rem)' }}
+              delay={0.05}
+              stagger={0.05}
+            />
+            <SplitText
+              text="love fashion & code."
+              className="editorial-headline leading-[1.05] italic-serif text-[var(--camel)]"
+              style={{ fontSize: 'clamp(2.4rem,4.5vw,3.5rem)' }}
+              delay={0.35}
+              stagger={0.05}
+            />
           </div>
 
           <div className="grid sm:grid-cols-2 md:grid-cols-4" style={{ gap: '1px', background: 'var(--border)' }}>
@@ -529,18 +540,21 @@ export default function LandingPage() {
           <div className="w-[800px] h-[800px] rounded-full blur-3xl" style={{ background: 'var(--camel)' }} />
         </motion.div>
 
-        <div className="max-w-3xl mx-auto text-center relative z-10" style={{ perspective: 700 }}>
-          {['Your style was never', 'missing. Just hidden.'].map((line, i) => (
-            <motion.div
-              key={line}
-              initial={{ opacity: 0, rotateX: 50, y: 22 }} whileInView={{ opacity: 1, rotateX: 0, y: 0 }}
-              viewport={{ once: true }} transition={{ delay: i * 0.15, duration: 0.65, ease }}
-              style={{ transformOrigin: 'bottom center', display: 'block', fontSize: 'clamp(2.6rem,5.5vw,4.2rem)', color: i === 1 ? 'var(--camel)' : accentText }}
-              className={`editorial-headline leading-[1.06]${i === 1 ? ' italic-serif' : ''}`}
-            >
-              {line}
-            </motion.div>
-          ))}
+        <div className="max-w-3xl mx-auto text-center relative z-10">
+          <SplitText
+            text="Your style was never"
+            className="editorial-headline leading-[1.06]"
+            style={{ fontSize: 'clamp(2.6rem,5.5vw,4.2rem)', color: accentText }}
+            delay={0.05}
+            stagger={0.055}
+          />
+          <SplitText
+            text="missing. Just hidden."
+            className="editorial-headline leading-[1.06] italic-serif"
+            style={{ fontSize: 'clamp(2.6rem,5.5vw,4.2rem)', color: 'var(--camel)' }}
+            delay={0.4}
+            stagger={0.055}
+          />
 
           <motion.p
             initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }}
@@ -555,11 +569,11 @@ export default function LandingPage() {
             viewport={{ once: true }} transition={{ delay: 0.5, duration: 0.5 }}
             className="flex flex-wrap gap-3 justify-center"
           >
-            <motion.div whileHover={{ y: -2, scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+            <MagneticElement>
               <Link href="#waitlist" className="pill" style={{ background: 'var(--camel)', color: '#fff' }}>
                 Join the waitlist <ArrowRight size={15} />
               </Link>
-            </motion.div>
+            </MagneticElement>
           </motion.div>
         </div>
       </section>

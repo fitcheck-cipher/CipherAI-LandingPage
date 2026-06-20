@@ -35,6 +35,10 @@
 .dark .gradient-warm { background: linear-gradient(180deg, #1A1714 0%, #141210 60%); }
 .dark .shimmer { background: linear-gradient(90deg, #25221F 0%, #2E2A26 50%, #25221F 100%); }
 
+@media (pointer: fine) {
+  *, *::before, *::after { cursor: none !important; }
+}
+
 html, body {
   background: var(--bg);
   color: var(--ink);
