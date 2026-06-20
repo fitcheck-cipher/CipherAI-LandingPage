@@ -1,6 +1,6 @@
 'use client'
 import Link from 'next/link'
-import { Sparkle, Sun, Moon } from '@phosphor-icons/react'
+import { Sun, Moon } from '@phosphor-icons/react'
 import { useTheme } from '@/app/theme-context'
 import MagneticElement from '@/components/MagneticElement'
 
@@ -15,11 +15,19 @@ export default function Navbar() {
       }}
     >
       <div className="max-w-7xl mx-auto px-5 md:px-8 h-16 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2">
-          <Sparkle weight="fill" className="text-[var(--camel)]" size={22} />
-          <span className="font-serif text-2xl tracking-tight" style={{ color: isDark ? '#fff' : 'var(--ink)' }}>
-            Cipher<span className="italic text-[var(--camel)]">AI</span>
-          </span>
+        <Link href="/" className="flex items-center">
+          <svg viewBox="0 0 280 68" xmlns="http://www.w3.org/2000/svg" width="148" height="36">
+            <line x1="14" y1="54" x2="46" y2="14" stroke="var(--ink)" strokeWidth="2" strokeLinecap="round" />
+            <polygon points="14,54 10,58 18,56" fill="var(--ink)" />
+            <ellipse cx="44" cy="16" rx="4.5" ry="2.5" fill="none" stroke="var(--ink)" strokeWidth="1.5" transform="rotate(-52 44 16)" />
+            <path d="M 46 12 Q 58 4 62 10 Q 66 16 60 20" fill="none" stroke="var(--camel)" strokeWidth="1.5" strokeLinecap="round" />
+            <g transform="translate(56,24)">
+              <path d="M 0 -5 L 0.9 -0.9 L 5 0 L 0.9 0.9 L 0 5 L -0.9 0.9 L -5 0 L -0.9 -0.9 Z" fill="var(--camel)" />
+            </g>
+            <text x="76" y="40" fontFamily="Georgia, 'Times New Roman', serif" fontSize="26" fontWeight="300" fill="var(--ink)" letterSpacing="-0.5">
+              Cipher<tspan fontStyle="italic" fill="var(--camel)">AI</tspan>
+            </text>
+          </svg>
         </Link>
         <div className="flex items-center gap-3">
           <button
