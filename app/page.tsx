@@ -76,10 +76,10 @@ const FEATURES = [
 ]
 
 const TEAM = [
-  { name: 'Aria Patel', role: 'Founder & CEO', img: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=500&q=80', bio: 'Former fashion editor turned ML engineer. Built Cipher to democratize personal styling.' },
-  { name: 'Jordan Lee', role: 'Head of AI', img: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=500&q=80', bio: 'PhD in computer vision. Designed the outfit scoring model and body measurement pipeline.' },
-  { name: 'Mia Chen', role: 'Lead Designer', img: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&q=80', bio: 'Crafted the Luxury Editorial design system. Obsessed with typography and motion.' },
-  { name: 'Sam Rivera', role: 'Engineering Lead', img: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=500&q=80', bio: 'Full-stack architect behind the wardrobe and outfit generation pipeline.' },
+  { name: 'Ruchira Balkudru Bhat', role: 'Founder & CEO', img: '/team/ruchira.jpg' },
+  { name: 'Himani B Bhat', role: 'Co-Founder', img: '/team/himani.png' },
+  { name: 'Subodh Pataki', role: 'Co-Founder', img: '/team/subodh.png' },
+  { name: 'Shreyas Kumar', role: 'Advisor', img: '/team/shreyas.jpg' },
 ]
 
 function ParallaxFeature({ num, Icon, title, body, img, index, isDark }: {
