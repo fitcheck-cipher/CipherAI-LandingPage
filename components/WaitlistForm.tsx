@@ -58,6 +58,7 @@ function Dropdown({
     <div ref={ref} style={{ position: 'relative', width: '100%' }}>
       <button
         type="button"
+        className="dropdown-btn"
         onClick={() => setOpen(o => !o)}
         style={{
           width: '100%',
@@ -114,6 +115,7 @@ function Dropdown({
             <button
               key={opt}
               type="button"
+              className="dropdown-option"
               onClick={() => { onChange(opt); setOpen(false) }}
               style={{
                 width: '100%',
@@ -251,7 +253,7 @@ export function WaitlistForm({ prefillEmail = '' }: { prefillEmail?: string }) {
 
   return (
     <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <label style={labelStyle}>Full Name *</label>
           <input

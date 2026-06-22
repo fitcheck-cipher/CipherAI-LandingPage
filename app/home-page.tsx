@@ -1,7 +1,7 @@
 'use client'
 
 import { useRef } from 'react'
-import { motion, useTransform, useSpring, useMotionValue, useScroll, useInView } from 'framer-motion'
+import { motion, useTransform, useSpring, useMotionValue, useScroll } from 'framer-motion'
 import { ArrowRight, TShirt, Robot, Ruler } from '@phosphor-icons/react'
 import Link from 'next/link'
 import { useTheme } from './theme-context'
@@ -136,72 +136,48 @@ function ManifestoTimeline({ accentText, accentMuted, accentBorder }: {
   )
 }
 
-function StickyFeatureCard({ num, Icon, title, body, img, index }: {
-  num: string; Icon: React.ElementType; title: string; body: string; img: string; index: number
-}) {
-  const ref = useRef<HTMLDivElement>(null)
-  const isInView = useInView(ref, { once: true, margin: '-60px' })
-  const textFirst = index % 2 === 0
+
+function ScrollFeaturesSection() {
+  const containerRef = useRef<HTMLDivElement>(null)
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ['start start', 'end end'],
+  })
+
+  const card2Y = useTransform(scrollYProgress, [0.12, 0.38], ['100%', '0%'])
+  const card3Y = useTransform(scrollYProgress, [0.55, 0.80], ['100%', '0%'])
 
   return (
-    <div
-      ref={ref}
-      style={{
-        position: 'sticky', top: 0, height: '100vh', zIndex: index + 1,
-        display: 'flex', flexDirection: textFirst ? 'row' : 'row-reverse', overflow: 'hidden',
-      }}
-    >
-      <div style={{
-        width: '42%', flexShrink: 0, background: 'var(--surface)',
-        padding: 'clamp(40px,5vw,80px)', display: 'flex', flexDirection: 'column', justifyContent: 'center',
-        borderRight: textFirst ? '1px solid var(--border)' : undefined,
-        borderLeft: !textFirst ? '1px solid var(--border)' : undefined,
-      }}>
-        <motion.span
-          initial={{ opacity: 0 }} animate={isInView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.55, delay: 0.08 }}
-          style={{ fontFamily: 'Poppins, sans-serif', fontSize: 'clamp(3.5rem,7vw,5.5rem)', fontWeight: 400, lineHeight: 1, color: 'var(--border)', display: 'block', marginBottom: -4, letterSpacing: '-0.02em' }}
-        >
-          {num}
-        </motion.span>
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }} animate={isInView ? { opacity: 1, scale: 1 } : {}}
-          transition={{ duration: 0.42, delay: 0.16 }}
-          style={{ width: 36, height: 36, borderRadius: 10, background: 'var(--surface-2)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 20 }}
-        >
-          <Icon size={18} style={{ color: 'var(--camel)' }} />
-        </motion.div>
-        <motion.h2
-          initial={{ opacity: 0, y: 18 }} animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.62, delay: 0.22 }}
-          style={{ fontFamily: 'Poppins, sans-serif', fontSize: 'clamp(2rem,3.2vw,3rem)', fontWeight: 400, letterSpacing: '-0.02em', lineHeight: 1.1, color: 'var(--ink)', marginBottom: 16 }}
-        >
-          {title}
-        </motion.h2>
-        <motion.p
-          initial={{ opacity: 0, y: 12 }} animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.58, delay: 0.30 }}
-          style={{ color: 'var(--ink-soft)', fontSize: '1rem', lineHeight: 1.72, maxWidth: 420 }}
-        >
-          {body}
-        </motion.p>
-        <motion.div
-          initial={{ opacity: 0 }} animate={isInView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.4, delay: 0.48 }}
-          style={{ marginTop: 'auto', paddingTop: 40, display: 'flex', gap: 6, alignItems: 'center' }}
-        >
-          {FEATURES.map((_, i) => (
-            <div key={i} style={{ height: 2, width: i === index ? 28 : 8, borderRadius: 999, background: i === index ? 'var(--camel)' : 'var(--border)', transition: 'width 0.3s' }} />
-          ))}
-        </motion.div>
-      </div>
-      <div style={{ flex: 1, overflow: 'hidden' }}>
-        <motion.img
-          src={img} alt={title}
-          style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block' }}
-          initial={{ scale: 1.06 }} animate={isInView ? { scale: 1 } : {}}
-          transition={{ duration: 1.3, ease: [0.22, 1, 0.36, 1] }}
-        />
+    <div ref={containerRef} className="features-scroll-wrapper">
+      <div className="features-sticky-container">
+        {FEATURES.map(({ num, Icon, title, body, img }, i) => (
+          <motion.div
+            key={num}
+            className="feature-wrap"
+            data-text-first={String(i % 2 === 0)}
+            style={{
+              y: i === 0 ? '0%' : i === 1 ? card2Y : card3Y,
+              zIndex: i + 1,
+            }}
+          >
+            <div className="feature-text">
+              <span className="feature-num-label">{num}</span>
+              <div style={{ width: 36, height: 36, borderRadius: 10, background: 'var(--surface-2)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 20 }}>
+                <Icon size={18} style={{ color: 'var(--camel)' }} />
+              </div>
+              <h2 className="feature-h2">{title}</h2>
+              <p className="feature-p">{body}</p>
+              <div className="feature-indicator">
+                {FEATURES.map((_, idx) => (
+                  <div key={idx} style={{ height: 2, width: idx === i ? 28 : 8, borderRadius: 999, background: idx === i ? 'var(--camel)' : 'var(--border)' }} />
+                ))}
+              </div>
+            </div>
+            <div className="feature-media">
+              <img src={img} alt={title} className="feature-media-img" />
+            </div>
+          </motion.div>
+        ))}
       </div>
     </div>
   )
@@ -221,16 +197,16 @@ export default function HomePage() {
   const accentBorder = isDark ? 'rgba(255,255,255,0.09)' : 'var(--border)'
 
   return (
-    <div className="overflow-x-hidden bg-[var(--bg)]">
+    <div className="[overflow-x:clip] bg-[var(--bg)]">
 
       {/* ── HERO ── */}
-      <section className="relative min-h-screen overflow-hidden flex flex-col lg:flex-row bg-[var(--bg)]">
-        <motion.div style={{ y: heroTextY }} className="flex-1 flex flex-col justify-start px-6 sm:px-10 lg:px-16 xl:px-24 pt-24 pb-16 lg:pt-28 lg:pb-10 relative z-10">
+      <section className="relative lg:min-h-screen overflow-hidden flex flex-col lg:flex-row bg-[var(--bg)]">
+        <motion.div style={{ y: heroTextY }} className="flex-1 flex flex-col px-6 sm:px-10 lg:px-16 xl:px-24 pt-14 sm:pt-20 pb-10 lg:pt-28 lg:pb-10 relative z-10">
           <div>
-            <SplitText text="Dress for your" className="editorial-headline text-[clamp(3.8rem,8vw,6.5rem)] leading-[1] tracking-[-0.03em] text-[var(--ink)]" delay={0.1} stagger={0.06} />
-            <SplitText text="actual life." className="editorial-headline text-[clamp(3.8rem,8vw,6.5rem)] leading-[1] tracking-[-0.03em] italic-serif text-[var(--camel)]" delay={0.32} stagger={0.07} />
+            <SplitText text="Dress for your" className="editorial-headline text-[clamp(2.4rem,9vw,6.5rem)] leading-[1] tracking-[-0.03em] text-[var(--ink)]" delay={0.1} stagger={0.06} />
+            <SplitText text="actual life." className="editorial-headline text-[clamp(2.4rem,9vw,6.5rem)] leading-[1] tracking-[-0.03em] italic-serif text-[var(--camel)]" delay={0.32} stagger={0.07} />
           </div>
-          <motion.p initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.52, duration: 0.6 }} className="text-[var(--ink-soft)] text-[1.05rem] leading-relaxed max-w-[440px] mt-7 mb-9">
+          <motion.p initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.52, duration: 0.6 }} className="text-[var(--ink-soft)] text-[1rem] leading-relaxed max-w-[440px] mt-6 mb-8">
             Cipher learns your shape, your wardrobe, your budget — and decodes your style. No fashion-speak. No size-chart math. No guessing.
           </motion.p>
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.68, duration: 0.5 }}>
@@ -239,8 +215,48 @@ export default function HomePage() {
               <ArrowRight size={16} />
             </Link>
           </motion.div>
+
+          {/* Mobile hero image — xs only — grows to fill remaining viewport height */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.76, duration: 0.7, ease }}
+            className="mt-7 sm:hidden relative overflow-hidden rounded-2xl grow"
+            style={{ minHeight: 220 }}
+          >
+            <img src={HERO_CARDS[1].img} alt={HERO_CARDS[1].title} className="w-full h-full object-cover object-top" />
+            <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/75 via-black/30 to-transparent">
+              <p className="poppins-semibold text-white text-sm">{HERO_CARDS[1].title}</p>
+              <p className="text-white/60 text-xs italic-serif mt-0.5">{HERO_CARDS[1].note}</p>
+            </div>
+          </motion.div>
+
+          {/* Tablet hero cards — sm to lg: image + label below */}
+          <div className="hidden sm:flex lg:hidden gap-4 items-start mt-7 grow">
+            {[
+              { ...HERO_CARDS[0], h: 260, mt: 32 },
+              { ...HERO_CARDS[1], h: 0, mt: 0 },
+              { ...HERO_CARDS[2], h: 230, mt: 48 },
+            ].map((card, i) => (
+              <motion.div
+                key={card.title}
+                initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.72 + i * 0.1, duration: 0.72, ease }}
+                className="flex-1 flex flex-col"
+                style={{ marginTop: card.mt }}
+              >
+                <div className="relative overflow-hidden rounded-2xl" style={{ height: i === 1 ? undefined : card.h, flex: i === 1 ? 1 : undefined, minHeight: i === 1 ? 200 : undefined }}>
+                  <img src={card.img} alt={card.title} className="w-full h-full object-cover object-top" />
+                </div>
+                <div className="pt-2.5 px-0.5">
+                  <p className="poppins-semibold text-[var(--ink)] text-xs leading-tight">{card.title}</p>
+                  <p className="text-[var(--ink-soft)] text-[10px] italic-serif mt-0.5">{card.note}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </motion.div>
 
+        {/* Desktop hero cards — lg+ */}
         <motion.div style={{ y: heroCardY }} className="hidden lg:flex lg:w-[48%] items-start justify-center relative overflow-hidden pt-28 pr-8">
           <div className="flex gap-3 items-start">
             {[{ ...HERO_CARDS[0], h: 380, mt: 40 }, { ...HERO_CARDS[1], h: 500, mt: 0 }, { ...HERO_CARDS[2], h: 360, mt: 60 }].map((card, i) => (
@@ -301,19 +317,31 @@ export default function HomePage() {
 
       {/* ── EDITORIAL GRID ── */}
       <section style={{ background: accentBg }}>
-        <div className="grid grid-cols-2 md:grid-cols-4" style={{ height: '90vh' }}>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
           {GRID_IMGS.map(({ src, label, sub }, i) => (
-            <motion.div key={i} initial={{ opacity: 0, scale: 1.08 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: i * 0.08, duration: 0.85, ease }} className="overflow-hidden relative group cursor-pointer" style={{ borderRight: i < 3 ? '1px solid rgba(255,255,255,0.04)' : undefined }}>
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, scale: 1.08 }} whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }} transition={{ delay: i * 0.08, duration: 0.85, ease }}
+              className="overflow-hidden relative group cursor-pointer h-[260px] sm:h-[300px] lg:h-[88vh]"
+              style={{ borderRight: i < 3 ? '1px solid rgba(255,255,255,0.04)' : undefined }}
+            >
               <img src={src} alt={label} className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105" />
               <div className="absolute inset-0 transition-colors duration-500" style={{ background: 'rgba(0,0,0,0.22)' }} />
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-5 md:p-7" style={{ background: 'rgba(4,3,2,0.36)', backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)' }}>
-                <p className="poppins-semibold text-white text-sm md:text-base mb-1 translate-y-3 group-hover:translate-y-0 transition-transform duration-500">{label}</p>
-                <p className="text-white/55 text-xs md:text-sm italic-serif translate-y-3 group-hover:translate-y-0 transition-transform duration-500" style={{ transitionDelay: '60ms' }}>{sub}</p>
+              {/* Always-visible label on mobile/tablet */}
+              <div className="lg:hidden absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/70 via-black/20 to-transparent">
+                <p className="poppins-semibold text-white text-sm mb-0.5">{label}</p>
+                <p className="text-white/60 text-xs italic-serif">{sub}</p>
+              </div>
+              {/* Hover overlay — desktop only */}
+              <div className="hidden lg:flex absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex-col justify-end p-7" style={{ background: 'rgba(4,3,2,0.36)', backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)' }}>
+                <p className="poppins-semibold text-white text-base mb-1 translate-y-3 group-hover:translate-y-0 transition-transform duration-500">{label}</p>
+                <p className="text-white/55 text-sm italic-serif translate-y-3 group-hover:translate-y-0 transition-transform duration-500" style={{ transitionDelay: '60ms' }}>{sub}</p>
               </div>
             </motion.div>
           ))}
         </div>
-        <div className="px-6 sm:px-10 md:px-14 py-12 flex flex-col sm:flex-row sm:items-center justify-between gap-5" style={{ background: accentBg, borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+        <div className="px-6 sm:px-10 md:px-14 py-12 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5" style={{ background: accentBg, borderTop: '1px solid rgba(255,255,255,0.06)' }}>
           <div>
             <p className="italic-serif text-[var(--camel)] text-sm mb-1">Your style, decoded.</p>
             <p className="editorial-headline text-3xl md:text-4xl" style={{ color: accentText }}>Every look, powered by AI.</p>
@@ -324,9 +352,7 @@ export default function HomePage() {
 
       {/* ── FEATURES ── */}
       <div id="features">
-        {FEATURES.map(({ num, Icon, title, body, img }, i) => (
-          <StickyFeatureCard key={num} num={num} Icon={Icon} title={title} body={body} img={img} index={i} />
-        ))}
+        <ScrollFeaturesSection />
       </div>
 
       {/* ── WAITLIST ── */}
@@ -362,12 +388,23 @@ export default function HomePage() {
             {TEAM.map(({ name, role, img }, i) => (
               <TiltCard key={name} className="group cursor-default overflow-hidden" style={{ background: 'var(--surface)' }}>
                 <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1, duration: 0.6, ease }} style={{ transformStyle: 'preserve-3d', background: 'var(--surface)' }}>
-                  <div className="flex justify-center pt-8 pb-4">
-                    <div className="overflow-hidden rounded-full" style={{ width: 140, height: 140, flexShrink: 0 }}>
-                      <img src={img} alt={name} className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105" />
+                  {/* Mobile: horizontal — image left, text right */}
+                  <div className="flex sm:block items-center gap-4 p-5 sm:p-0">
+                    <div className="sm:hidden overflow-hidden rounded-full flex-shrink-0" style={{ width: 72, height: 72 }}>
+                      <img src={img} alt={name} className="w-full h-full object-cover object-top" />
+                    </div>
+                    <div className="sm:hidden flex flex-col justify-center">
+                      <p className="poppins-semibold text-[var(--ink)] text-[0.9rem] leading-tight">{name}</p>
+                      <p className="text-[var(--camel)] text-[10px] poppins-medium uppercase tracking-wider mt-1">{role}</p>
+                    </div>
+                    {/* sm+: vertical card layout */}
+                    <div className="hidden sm:flex justify-center pt-8 pb-4">
+                      <div className="overflow-hidden rounded-full" style={{ width: 140, height: 140, flexShrink: 0 }}>
+                        <img src={img} alt={name} className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105" />
+                      </div>
                     </div>
                   </div>
-                  <motion.div style={{ translateZ: 16, borderTop: '1px solid var(--border)' }} className="p-5">
+                  <motion.div style={{ translateZ: 16, borderTop: '1px solid var(--border)' }} className="hidden sm:block p-5">
                     <p className="poppins-semibold text-[var(--ink)] text-[0.95rem]">{name}</p>
                     <p className="text-[var(--camel)] text-[10px] poppins-medium uppercase tracking-wider">{role}</p>
                   </motion.div>
@@ -394,11 +431,9 @@ export default function HomePage() {
       </section>
 
       {/* ── FOOTER ── */}
-      <footer style={{ background: accentBg, borderTop: `1px solid ${accentBorder}` }}>
-        <div className="px-6 sm:px-10 md:px-14 py-24 flex flex-col items-center gap-8 text-center">
-          <span className="editorial-headline select-none leading-none" style={{ fontSize: 'clamp(3.5rem,11vw,8.5rem)', letterSpacing: '-0.04em', backgroundImage: isDark ? 'linear-gradient(145deg, rgba(255,255,255,0.52) 0%, rgba(255,255,255,0.13) 38%, rgba(196,160,116,0.45) 68%, rgba(255,255,255,0.08) 100%)' : 'linear-gradient(145deg, rgba(28,28,28,0.38) 0%, rgba(28,28,28,0.12) 38%, rgba(169,124,80,0.55) 68%, rgba(28,28,28,0.06) 100%)', WebkitBackgroundClip: 'text', backgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-            CipherAI
-          </span>
+      <footer style={{ background: accentBg, borderTop: `1px solid ${accentBorder}`, overflow: 'hidden' }}>
+        {/* Links + copyright */}
+        <div className="px-4 sm:px-8 md:px-12 pt-10 pb-5 flex flex-col items-center gap-4 text-center">
           <div className="flex items-center gap-8">
             <a href="#waitlist" className="text-[11px] tracking-[0.18em] uppercase hover:opacity-80 transition-opacity" style={{ color: accentMuted }}>Join Waitlist</a>
             <span style={{ color: accentBorder }}>·</span>
@@ -406,8 +441,27 @@ export default function HomePage() {
             <span style={{ color: accentBorder }}>·</span>
             <a href="#team" className="text-[11px] tracking-[0.18em] uppercase hover:opacity-80 transition-opacity" style={{ color: accentMuted }}>Team</a>
           </div>
-          <p className="text-[10px] tracking-[0.2em] uppercase" style={{ color: accentMuted, opacity: 0.5 }}>© 2026 CipherAI · All rights reserved</p>
+          <p className="text-[10px] tracking-[0.2em] uppercase" style={{ color: accentMuted, opacity: 0.5 }}>&copy; 2026 CipherAI · All rights reserved</p>
         </div>
+
+        {/* Giant wordmark — bottom edge */}
+        <span
+          className="editorial-headline select-none block text-center uppercase"
+          style={{
+            fontSize: 'clamp(5rem,24vw,40rem)',
+            lineHeight: 0.75,
+            marginBottom: '-0.02em',
+            letterSpacing: '-0.04em',
+            backgroundImage: isDark
+              ? 'linear-gradient(145deg, rgba(255,255,255,0.65) 0%, rgba(255,255,255,0.18) 35%, rgba(196,160,116,0.6) 65%, rgba(255,255,255,0.12) 100%)'
+              : 'linear-gradient(145deg, rgba(28,28,28,0.5) 0%, rgba(28,28,28,0.15) 35%, rgba(169,124,80,0.7) 65%, rgba(28,28,28,0.08) 100%)',
+            WebkitBackgroundClip: 'text',
+            backgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+          }}
+        >
+          CipherAI
+        </span>
       </footer>
 
     </div>

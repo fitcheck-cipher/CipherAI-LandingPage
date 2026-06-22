@@ -41,7 +41,7 @@ export default function Navbar() {
             {isDark ? <Sun size={16} /> : <Moon size={16} />}
           </button>
           <Link href="#waitlist" className="pill text-sm" style={{ background: 'var(--camel)', color: '#fff' }}>
-            Join Waitlist
+            <span className="hidden sm:inline">Join </span>Waitlist
           </Link>
         </div>
       </div>

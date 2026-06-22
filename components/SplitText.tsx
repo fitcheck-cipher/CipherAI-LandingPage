@@ -33,6 +33,8 @@ export default function SplitText({ text, className = '', style, delay = 0, stag
             display: 'inline-block',
             overflow: 'hidden',
             verticalAlign: 'bottom',
+            paddingTop: '0.15em',
+            marginTop: '-0.15em',
             marginRight: i < words.length - 1 ? '0.28em' : 0,
           }}
         >

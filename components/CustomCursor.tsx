@@ -15,7 +15,8 @@ export default function CustomCursor() {
   const size = useSpring(ringSize, { stiffness: 200, damping: 22 })
 
   useEffect(() => {
-    setMounted(true)
+    const isTouch = window.matchMedia('(hover: none) and (pointer: coarse)').matches
+    if (!isTouch) setMounted(true)
   }, [])
 
   useEffect(() => {
